@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:japurin/utils/ruby.dart';
 import 'package:ruby_text/ruby_text.dart';
 
-class HomePageButton extends StatelessWidget {
+class HomeNavigationButton extends StatelessWidget {
   final Ruby ruby;
-  final String page;
+  final String route;
 
-  const HomePageButton({
+  const HomeNavigationButton({
     super.key,
     required this.ruby,
-    required this.page,
+    required this.route,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => Navigator.pushNamed(context, page),
+      onPressed: () => Navigator.pushNamed(context, route),
       style: ElevatedButton.styleFrom(
         minimumSize: Size(120, 80),
         shape: RoundedRectangleBorder(

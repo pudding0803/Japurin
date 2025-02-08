@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pages/home.dart';
-import 'pages/furigana.dart';
-import 'pages/josuushi.dart';
-import 'pages/jitadoushi.dart';
+import 'pages/home/home.dart';
+import 'pages/furigana/furigana.dart';
+import 'pages/josuushi/josuushi.dart';
+import 'pages/jitadoushi/jitadoushi.dart';
 
 class Routes {
   static const String home = '/';
