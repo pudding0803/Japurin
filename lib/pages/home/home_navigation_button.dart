@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:japurin/utils/ruby.dart';
+import 'package:japurin/models/ruby.dart';
 import 'package:ruby_text/ruby_text.dart';
 
 class HomeNavigationButton extends StatelessWidget {

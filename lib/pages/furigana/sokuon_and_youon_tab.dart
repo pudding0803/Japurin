@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/constants/furigana.dart';
 import 'package:japurin/models/furigana.dart';
-import 'package:japurin/pages/furigana/furigana_base_tab.dart';
-import 'package:japurin/utils/ruby.dart';
-import 'package:japurin/pages/furigana/table_padding.dart';
+import 'package:japurin/widgets/base_tab.dart';
+import 'package:japurin/models/ruby.dart';
+import 'package:japurin/widgets/table_padding.dart';
 import 'package:ruby_text/ruby_text.dart';
 
 class SokuonAndYouonTab extends StatelessWidget {
@@ -20,52 +20,47 @@ class SokuonAndYouonTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FuriganaBaseTab(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              RubyText(Ruby('促音', ['そく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(width: 28),
-              Expanded(
-                child: Text(sokuon.getValue(furiganaType), textAlign: TextAlign.left),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Divider(),
-          const SizedBox(height: 10),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RubyText(Ruby('拗音', ['よう', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(width: 28),
-              Expanded(
-                child: Table(
-                  border: TableBorder.all(color: Colors.blue),
+    return BaseTab(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RubyText(const Ruby('促音', ['そく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(width: 32),
+                Text(sokuon.getValue(furiganaType), textAlign: TextAlign.left),
+              ],
+            ),
+            const SizedBox(height: 20),
+            RubyText(const Ruby('拗音', ['よう', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 10),
+            Table(
+              border: TableBorder.all(color: Colors.blue),
+              defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
+              columnWidths: {
+                for (int i = 0; i < 4; i++) i: const IntrinsicColumnWidth(),
+              },
+              children: [
+                TableRow(
                   children: [
-                    TableRow(
-                      children: [
-                        TablePadding(text: '', header: true),
-                        ...header.map((kata) => TablePadding(text: kata.getValue(furiganaType), header: true)),
-                      ],
-                    ),
-                    ...youon.entries.map((entry) { 
-                      return TableRow(
-                        children: [
-                          TablePadding(text: '${entry.value[0].getValue(furiganaType)[0]}${furiganaType == FuriganaType.romaji ? 'i' : ''}', header: true),
-                          ...entry.value.map((kata) => TablePadding(text: kata.getValue(furiganaType))),
-                        ]
-                      );
-                    }),
+                    TablePadding(ruby: const Ruby(''), header: true),
+                    ...header.map((kata) => TablePadding(ruby: Ruby(kata.getValue(furiganaType)), header: true)),
                   ],
                 ),
-              ),
-            ],
-          ),
-        ],
+                ...youon.entries.map((entry) { 
+                  return TableRow(
+                    children: [
+                      TablePadding(ruby: Ruby(entry.key.getValue(furiganaType)), header: true),
+                      ...entry.value.map((kata) => TablePadding(ruby: Ruby(kata.getValue(furiganaType)))),
+                    ],//furiganaType == FuriganaType.romaji
+                  );
+                }),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

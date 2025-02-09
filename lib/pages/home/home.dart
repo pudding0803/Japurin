@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:japurin/utils/ruby.dart';
+import 'package:japurin/models/ruby.dart';
 import 'package:japurin/routes.dart';
 import 'package:japurin/pages/home/home_navigation_button.dart';
 
@@ -21,23 +21,20 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                HomeNavigationButton(
-                  ruby: Ruby('振り仮名', ['ふ', null, 'が', 'な']),
-                  route: Routes.furigana
-                ),
-                HomeNavigationButton(
-                  ruby: Ruby('助数詞', ['じょ', 'すう', 'し']),
-                  route: Routes.josuushi,
-                ),
-                HomeNavigationButton(
-                  ruby: Ruby('自・他動詞', ['じ', null, 'た', 'どう', 'し']),
-                  route: Routes.jitadoushi,
-                ),
-              ],
+          children: [
+            HomeNavigationButton(
+              ruby: Ruby('振り仮名', ['ふ', null, 'が', 'な']),
+              route: Routes.furigana
+            ),
+            const SizedBox(height: 30),
+            HomeNavigationButton(
+              ruby: Ruby('数詞', ['すう', 'し']),
+              route: Routes.suushi,
+            ),
+            const SizedBox(height: 30),
+            HomeNavigationButton(
+              ruby: Ruby('自・他動詞', ['じ', null, 'た', 'どう', 'し']),
+              route: Routes.jitadoushi,
             ),
           ],
         ),
