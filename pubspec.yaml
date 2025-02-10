@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   ruby_text: ^3.0.3
+  audioplayers: ^6.1.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -69,6 +70,9 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
 
+  assets:
+    - assets/audio/
+
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -85,10 +89,11 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+
   fonts:
     - family: NotoSansCJK
       fonts:
         - asset: assets/fonts/NotoSansCJK-Regular.ttc
+
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package

@@ -16,8 +16,13 @@ class SeionAndHatsuonTab extends StatelessWidget {
   ];
 
   final FuriganaType furiganaType;
+  final Function(String) playSound;
 
-  const SeionAndHatsuonTab({super.key, required this.furiganaType});
+  const SeionAndHatsuonTab({
+    super.key,
+    required this.furiganaType,
+    required this.playSound,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +49,30 @@ class SeionAndHatsuonTab extends StatelessWidget {
                   children: [
                     TablePadding(ruby: Ruby('${entry.key.getValue(furiganaType)}行'), header: true),
                     ...(() {
-                      final List<String> contents = List.filled(5, ' ');
+                      final List<Furigana> cells = List.filled(5, const Furigana('', '', ''));
 
                       if (entry.value.length == 3) {
-                        contents[0] = entry.value[0].getValue(furiganaType);
-                        contents[2] = entry.value[1].getValue(furiganaType);
-                        contents[4] = entry.value[2].getValue(furiganaType);
+                        cells[0] = entry.value[0];
+                        cells[2] = entry.value[1];
+                        cells[4] = entry.value[2];
                       } else if (entry.value.length == 2) {
-                        contents[0] = entry.value[0].getValue(furiganaType);
-                        contents[4] = entry.value[1].getValue(furiganaType);
+                        cells[0] = entry.value[0];
+                        cells[4] = entry.value[1];
                       } else {
                         for (int i = 0; i < 5; i++) {
-                          contents[i] = entry.value[i].getValue(furiganaType);
+                          cells[i] = entry.value[i];
                         }
                       }
 
-                      return List.generate(5, (i) => TablePadding(ruby: Ruby(contents[i])));
+                      return List.generate(
+                        5,
+                        (i) => GestureDetector(
+                          onTap: () async {
+                            await playSound(cells[i].romaji);
+                          },
+                          child: TablePadding(ruby: Ruby(cells[i].getValue(furiganaType))),
+                        ),
+                      );
                     })(),
                   ],
                 );
@@ -72,7 +85,12 @@ class SeionAndHatsuonTab extends StatelessWidget {
             children: [
               RubyText(const Ruby('撥音', ['はつ', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(width: 32),
-              Text(hatsuon.getValue(furiganaType), textAlign: TextAlign.left),
+              GestureDetector(
+                onTap: () async {
+                  await playSound(hatsuon.romaji);
+                },
+                child: Text(hatsuon.getValue(furiganaType), textAlign: TextAlign.left),
+              ),
             ],
           )
         ],

@@ -15,8 +15,13 @@ class SokuonAndYouonTab extends StatelessWidget {
   ];
 
   final FuriganaType furiganaType;
+  final Function(String) playSound;
 
-  const SokuonAndYouonTab({super.key, required this.furiganaType});
+  const SokuonAndYouonTab({
+    super.key,
+    required this.furiganaType,
+    required this.playSound,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +58,12 @@ class SokuonAndYouonTab extends StatelessWidget {
                   return TableRow(
                     children: [
                       TablePadding(ruby: Ruby(entry.key.getValue(furiganaType)), header: true),
-                      ...entry.value.map((kata) => TablePadding(ruby: Ruby(kata.getValue(furiganaType)))),
+                      ...entry.value.map((kata) => GestureDetector(
+                        onTap: () async {
+                          await playSound(kata.romaji);
+                        },
+                        child: TablePadding(ruby: Ruby(kata.getValue(furiganaType)))),
+                      ),
                     ],//furiganaType == FuriganaType.romaji
                   );
                 }),

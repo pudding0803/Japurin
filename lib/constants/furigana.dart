@@ -159,11 +159,6 @@ const Map<Furigana, List<Furigana>> youon = {
     Furigana('じゅ', 'ジュ', 'ju'),
     Furigana('じょ', 'ジョ', 'jo'),
   ],
-  Furigana('ぢ', 'ヂ', 'ji'): [
-    Furigana('ぢゃ', 'ヂャ', 'ja'),
-    Furigana('ぢゅ', 'ヂュ', 'ju'),
-    Furigana('ぢょ', 'ヂョ', 'jo'),
-  ],
   Furigana('び', 'ビ', 'bi'): [
     Furigana('びゃ', 'ビャ', 'bya'),
     Furigana('びゅ', 'ビュ', 'byu'),

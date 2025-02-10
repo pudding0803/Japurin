@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:japurin/models/furigana.dart';
 import 'package:japurin/pages/furigana/dakuon_and_handakuon_tab.dart';
@@ -12,7 +13,13 @@ class FuriganaPage extends StatefulWidget {
 }
 
 class _FuriganaPageState extends State<FuriganaPage> {
-  FuriganaType furiganaType = FuriganaType.hiragana;
+  FuriganaType _furiganaType = FuriganaType.hiragana;
+
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  void _playKataSound(String kata) async {
+    await _audioPlayer.play(AssetSource('audio/$kata.mp3'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +38,18 @@ class _FuriganaPageState extends State<FuriganaPage> {
         ),
         body: TabBarView(
           children: [
-            SeionAndHatsuonTab(furiganaType: furiganaType),
-            DakuonAndHandakuonTab(furiganaType: furiganaType),
-            SokuonAndYouonTab(furiganaType: furiganaType),
+            SeionAndHatsuonTab(furiganaType: _furiganaType, playSound: _playKataSound),
+            DakuonAndHandakuonTab(furiganaType: _furiganaType, playSound: _playKataSound),
+            SokuonAndYouonTab(furiganaType: _furiganaType, playSound: _playKataSound),
           ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-                furiganaType = FuriganaType.values[(furiganaType.index + 1) % FuriganaType.values.length];
+                _furiganaType = FuriganaType.values[(_furiganaType.index + 1) % FuriganaType.values.length];
             });
           },
-          tooltip: '${switch (furiganaType) {
+          tooltip: '${switch (_furiganaType) {
             FuriganaType.hiragana => '片仮名',
             FuriganaType.katakana => 'ローマ字',
             FuriganaType.romaji => '平仮名',
@@ -53,7 +60,7 @@ class _FuriganaPageState extends State<FuriganaPage> {
               Transform.translate(
                 offset: Offset(-4, -4),
                 child: Text(
-                  switch (furiganaType) {
+                  switch (_furiganaType) {
                     FuriganaType.hiragana => 'ア',
                     FuriganaType.katakana => 'ａ',
                     FuriganaType.romaji => 'あ',
