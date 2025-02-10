@@ -26,12 +26,17 @@ class _HomePageState extends State<HomePage> {
               ruby: Ruby('振り仮名', rubies: ['ふ', null, 'が', 'な']),
               route: Routes.furigana
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 40),
             HomeNavigationButton(
               ruby: Ruby('数詞', rubies: ['すう', 'し']),
               route: Routes.suushi,
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 40),
+            HomeNavigationButton(
+              ruby: Ruby('動詞の活用', rubies: ['どう', 'し', null, 'かつ', 'よう']),
+              route: Routes.doushiNoKatsuyou,
+            ),
+            const SizedBox(height: 40),
             HomeNavigationButton(
               ruby: Ruby('自・他動詞', rubies: ['じ', null, 'た', 'どう', 'し']),
               route: Routes.jitadoushi,
