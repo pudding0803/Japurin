@@ -68,7 +68,7 @@ const Map<Furigana, List<Furigana>> seion = {
   ],
 };
 
-const Furigana hatsuon = Furigana('ん', 'ン', 'n');
+const hatsuon = Furigana('ん', 'ン', 'n');
 
 const Map<Furigana, List<Furigana>> dakuon = {
   Furigana('が', 'ガ', 'ga'): [
@@ -111,7 +111,7 @@ const Map<Furigana, List<Furigana>> handakuon = {
   ],
 };
 
-const Furigana sokuon = Furigana('っ', 'ッ', '-');
+const sokuon = Furigana('っ', 'ッ', '-');
 
 const Map<Furigana, List<Furigana>> youon = {
   Furigana('き', 'キ', 'ki'): [

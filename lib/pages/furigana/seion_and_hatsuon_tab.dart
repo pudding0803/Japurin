@@ -29,7 +29,7 @@ class SeionAndHatsuonTab extends StatelessWidget {
     return BaseTab(
       child: Column(
         children: [
-          RubyText(const Ruby('清音', ['せい', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+          RubyText(const Ruby('清音', rubies: ['せい', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 10),
           Table(
             border: TableBorder.all(color: Colors.blue),
@@ -64,15 +64,16 @@ class SeionAndHatsuonTab extends StatelessWidget {
                         }
                       }
 
-                      return List.generate(
-                        5,
-                        (i) => GestureDetector(
-                          onTap: () async {
-                            await playSound(cells[i].romaji);
-                          },
-                          child: TablePadding(ruby: Ruby(cells[i].getValue(furiganaType))),
-                        ),
-                      );
+                      return List.generate(5, (i) {
+                        final ruby = Ruby(cells[i].getValue(furiganaType));
+
+                        return cells[i].romaji.isEmpty
+                            ? TablePadding(ruby: ruby)
+                            : GestureDetector(
+                                onTap: () async => await playSound(cells[i].romaji),
+                                child: TablePadding(ruby: ruby),
+                              );
+                      });
                     })(),
                   ],
                 );
@@ -83,7 +84,7 @@ class SeionAndHatsuonTab extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RubyText(const Ruby('撥音', ['はつ', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+              RubyText(const Ruby('撥音', rubies: ['はつ', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(width: 32),
               GestureDetector(
                 onTap: () async {

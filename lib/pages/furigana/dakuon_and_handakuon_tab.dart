@@ -29,7 +29,7 @@ class DakuonAndHandakuonTab extends StatelessWidget {
     return BaseTab(
       child: Column(
         children: [
-          RubyText(const Ruby('濁音', ['だく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+          RubyText(const Ruby('濁音', rubies: ['だく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 10),
           Table(
             border: TableBorder.all(color: Colors.blue),
@@ -60,7 +60,7 @@ class DakuonAndHandakuonTab extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          RubyText(const Ruby('半濁音', ['はん', 'だく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+          RubyText(const Ruby('半濁音', rubies: ['はん', 'だく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 10),
           Table(
             border: TableBorder.all(color: Colors.blue),

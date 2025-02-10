@@ -8,9 +8,9 @@ class Ruby {
   final bool bold;
   final Color color;
   
-  const Ruby(this.text, [this.rubies, this.bold = false, this.color = Colors.black]) : texts = null;
+  const Ruby(this.text, {this.rubies, this.bold = false, this.color = Colors.black}) : texts = null;
 
-  const Ruby.multi(this.texts, this.rubies, [this.bold = false, this.color = Colors.black]) : text = null;
+  const Ruby.multi(this.texts, {this.rubies, this.bold = false, this.color = Colors.black}) : text = null;
 
   List<RubyTextData> toRubyList() {
     if (text != null) {

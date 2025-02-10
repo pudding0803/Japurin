@@ -33,13 +33,13 @@ class SokuonAndYouonTab extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RubyText(const Ruby('促音', ['そく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+                RubyText(const Ruby('促音', rubies: ['そく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(width: 32),
                 Text(sokuon.getValue(furiganaType), textAlign: TextAlign.left),
               ],
             ),
             const SizedBox(height: 20),
-            RubyText(const Ruby('拗音', ['よう', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+            RubyText(const Ruby('拗音', rubies: ['よう', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 10),
             Table(
               border: TableBorder.all(color: Colors.blue),

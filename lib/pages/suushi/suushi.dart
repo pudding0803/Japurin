@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/pages/suushi/josuushi_tab.dart';
 import 'package:japurin/pages/suushi/kisuushi_tab.dart';
+import 'package:japurin/pages/suushi/onbin_tab.dart';
 
 class SuushiPage extends StatelessWidget {
   const SuushiPage({super.key});
@@ -8,7 +9,7 @@ class SuushiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text('数詞'),
@@ -16,6 +17,7 @@ class SuushiPage extends StatelessWidget {
             tabs: [
               Tab(text: '基数詞'),
               Tab(text: '助数詞'),
+              Tab(text: '音便の規則')
             ],
           ),
         ),
@@ -23,6 +25,7 @@ class SuushiPage extends StatelessWidget {
           children: [
             KisuushiTab(),
             JosuushiTab(),
+            OnbinTab(),
           ],
         ),
       ),
