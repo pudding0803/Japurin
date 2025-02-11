@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:japurin/models/ruby.dart';
 import 'package:ruby_text/ruby_text.dart';
 
-class HomeNavigationButton extends StatelessWidget {
+class NavigationButton extends StatelessWidget {
   final Ruby ruby;
-  final String route;
+  final Widget page;
 
-  const HomeNavigationButton({
+  const NavigationButton({
     super.key,
     required this.ruby,
-    required this.route,
+    required this.page,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => Navigator.pushNamed(context, route),
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => page),
+      ),
       style: ElevatedButton.styleFrom(
         minimumSize: Size(120, 80),
         shape: RoundedRectangleBorder(
@@ -25,7 +28,7 @@ class HomeNavigationButton extends StatelessWidget {
       child: RubyText(
         ruby.toRubyList(),
         style: TextStyle(fontSize: 16),
-        rubyStyle: TextStyle(fontSize: 10, color: Colors.grey),
+        rubyStyle: TextStyle(color: Colors.grey),
       ),
     );
   }

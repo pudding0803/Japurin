@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'routes.dart';
+import 'package:japurin/pages/home/home.dart';
 
 void main() {
   runApp(const App());
@@ -17,8 +17,7 @@ class App extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'NotoSansCJK',
       ),
-      initialRoute: Routes.home,
-      routes: Routes.routes,
+      home: HomePage(),
     );
   }
 }

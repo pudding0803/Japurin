@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/models/ruby.dart';
-import 'package:japurin/routes.dart';
-import 'package:japurin/pages/home/home_navigation_button.dart';
+import 'package:japurin/pages/doushi_no_katsuyou/doushi_no_katsuyou.dart';
+import 'package:japurin/pages/furigana/furigana.dart';
+import 'package:japurin/pages/jitadoushi/jitadoushi.dart';
+import 'package:japurin/pages/suushi/suushi.dart';
+import 'package:japurin/widgets/navigation_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,24 +25,24 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            HomeNavigationButton(
+            NavigationButton(
               ruby: Ruby('振り仮名', rubies: ['ふ', null, 'が', 'な']),
-              route: Routes.furigana
+              page: FuriganaPage(),
             ),
             const SizedBox(height: 40),
-            HomeNavigationButton(
+            NavigationButton(
               ruby: Ruby('数詞', rubies: ['すう', 'し']),
-              route: Routes.suushi,
+              page: SuushiPage(),
             ),
             const SizedBox(height: 40),
-            HomeNavigationButton(
+            NavigationButton(
               ruby: Ruby('動詞の活用', rubies: ['どう', 'し', null, 'かつ', 'よう']),
-              route: Routes.doushiNoKatsuyou,
+              page: DoushiNoKatsuyouPage(),
             ),
             const SizedBox(height: 40),
-            HomeNavigationButton(
+            NavigationButton(
               ruby: Ruby('自・他動詞', rubies: ['じ', null, 'た', 'どう', 'し']),
-              route: Routes.jitadoushi,
+              page: JitadoushiPage(),
             ),
           ],
         ),
