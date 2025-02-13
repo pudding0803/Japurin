@@ -38,7 +38,9 @@ class SokuonAndYouonTab extends StatelessWidget {
                 Text(sokuon.getValue(furiganaType), textAlign: TextAlign.left),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            const Divider(),
+            const SizedBox(height: 10),
             RubyText(const Ruby('拗音', rubies: ['よう', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 10),
             Table(

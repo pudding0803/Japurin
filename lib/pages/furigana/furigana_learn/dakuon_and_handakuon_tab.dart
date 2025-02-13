@@ -61,7 +61,9 @@ class DakuonAndHandakuonTab extends StatelessWidget {
                 }),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            const Divider(),
+            const SizedBox(height: 10),
             RubyText(const Ruby('半濁音', rubies: ['はん', 'だく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 10),
             Table(
