@@ -20,14 +20,11 @@ class NavigationButton extends StatelessWidget {
         MaterialPageRoute(builder: (context) => page),
       ),
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(120, 80),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
+        minimumSize: Size(140, 60),
       ),
       child: RubyText(
         ruby.toRubyList(),
-        style: TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: 14),
         rubyStyle: TextStyle(color: Colors.grey),
       ),
     );

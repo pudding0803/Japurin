@@ -15,7 +15,7 @@ class TablePadding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       color: header ? Colors.tealAccent : Colors.transparent,
       alignment: Alignment.center,
       child: RubyText(

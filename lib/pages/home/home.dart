@@ -21,30 +21,30 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('ジャプリン Japurin'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            NavigationButton(
-              ruby: Ruby('振り仮名', rubies: ['ふ', null, 'が', 'な']),
-              page: FuriganaPage(),
-            ),
-            const SizedBox(height: 40),
-            NavigationButton(
-              ruby: Ruby('数詞', rubies: ['すう', 'し']),
-              page: SuushiPage(),
-            ),
-            const SizedBox(height: 40),
-            NavigationButton(
-              ruby: Ruby('動詞の活用', rubies: ['どう', 'し', null, 'かつ', 'よう']),
-              page: DoushiNoKatsuyouPage(),
-            ),
-            const SizedBox(height: 40),
-            NavigationButton(
-              ruby: Ruby('自・他動詞', rubies: ['じ', null, 'た', 'どう', 'し']),
-              page: JitadoushiPage(),
-            ),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              NavigationButton(
+                ruby: Ruby('振り仮名', rubies: ['ふ', null, 'が', 'な']),
+                page: FuriganaPage(),
+              ),
+              NavigationButton(
+                ruby: Ruby('数詞', rubies: ['すう', 'し']),
+                page: SuushiPage(),
+              ),
+              NavigationButton(
+                ruby: Ruby('動詞の活用', rubies: ['どう', 'し', null, 'かつ', 'よう']),
+                page: DoushiNoKatsuyouPage(),
+              ),
+              NavigationButton(
+                ruby: Ruby('自・他動詞', rubies: ['じ', null, 'た', 'どう', 'し']),
+                page: JitadoushiPage(),
+              ),
+            ],
+          ),
         ),
       ),
     );
