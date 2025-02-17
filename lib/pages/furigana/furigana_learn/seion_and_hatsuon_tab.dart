@@ -16,6 +16,7 @@ class SeionAndHatsuonTab extends StatelessWidget {
   ];
 
   final FuriganaType furiganaType;
+
   final Function(String) playSound;
 
   const SeionAndHatsuonTab({
@@ -26,12 +27,13 @@ class SeionAndHatsuonTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BaseTab(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            RubyText(const Ruby('清音', rubies: ['せい', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+            RubyText(const Ruby('清音', rubies: ['せい', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
             const SizedBox(height: 10),
             Table(
               border: TableBorder.all(color: Colors.blue),
@@ -49,7 +51,7 @@ class SeionAndHatsuonTab extends StatelessWidget {
                 ...seion.entries.map((entry) { 
                   return TableRow(
                     children: [
-                      TablePadding(ruby: Ruby('${entry.key.getValue(furiganaType)}行'), header: true),
+                      TablePadding(ruby: Ruby('${entry.value.first.getValue(furiganaType)}行'), header: true),
                       ...(() {
                         final List<Furigana> cells = List.filled(5, const Furigana('', '', ''));
 
@@ -88,7 +90,7 @@ class SeionAndHatsuonTab extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RubyText(const Ruby('撥音', rubies: ['はつ', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+                RubyText(const Ruby('撥音', rubies: ['はつ', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
                 const SizedBox(width: 32),
                 GestureDetector(
                   onTap: () async {

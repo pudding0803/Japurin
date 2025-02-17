@@ -7,7 +7,6 @@ import 'package:japurin/widgets/table_padding.dart';
 import 'package:ruby_text/ruby_text.dart';
 
 class SokuonAndYouonTab extends StatelessWidget {
-
   static const header = [
     Furigana('ゃ', 'ャ', 'ya'),
     Furigana('ゅ', 'ュ', 'yu'),
@@ -15,6 +14,7 @@ class SokuonAndYouonTab extends StatelessWidget {
   ];
 
   final FuriganaType furiganaType;
+
   final Function(String) playSound;
 
   const SokuonAndYouonTab({
@@ -25,6 +25,7 @@ class SokuonAndYouonTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BaseTab(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -33,7 +34,7 @@ class SokuonAndYouonTab extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RubyText(const Ruby('促音', rubies: ['そく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+                RubyText(const Ruby('促音', rubies: ['そく', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
                 const SizedBox(width: 32),
                 Text(sokuon.getValue(furiganaType), textAlign: TextAlign.left),
               ],
@@ -41,7 +42,7 @@ class SokuonAndYouonTab extends StatelessWidget {
             const SizedBox(height: 10),
             const Divider(),
             const SizedBox(height: 10),
-            RubyText(const Ruby('拗音', rubies: ['よう', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+            RubyText(const Ruby('拗音', rubies: ['よう', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
             const SizedBox(height: 10),
             Table(
               border: TableBorder.all(color: Colors.blue),

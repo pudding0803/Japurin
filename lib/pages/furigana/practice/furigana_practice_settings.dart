@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:japurin/constants/furigana.dart';
 import 'package:japurin/models/ruby.dart';
 import 'package:japurin/pages/furigana/practice/furigana_practice.dart';
-import 'package:japurin/utils/preferences_manager.dart';
+import 'package:japurin/pages/furigana/practice/furigana_practice_service.dart';
+import 'package:japurin/pages/furigana/practice/kata_type_toggle_buttons.dart';
 import 'package:japurin/widgets/labeled_checkbox.dart';
 import 'package:ruby_text/ruby_text.dart';
 
@@ -14,61 +15,32 @@ class FuriganaPracticeSettingsPage extends StatefulWidget {
 }
 
 class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsPage> {
-  final Map<String, Map<String, ValueNotifier<bool>>> questionRanges = {
-    '清音': {
-      for (final kata in seion.keys) kata.romaji: ValueNotifier<bool>(false),
-    },
-    '撥音': {
-      hatsuon.romaji: ValueNotifier<bool>(false),
-    },
-    '濁音': {
-      for (final kata in dakuon.keys) kata.romaji: ValueNotifier<bool>(false),
-    },
-    '半濁音': {
-      for (final kata in handakuon.keys) kata.romaji: ValueNotifier<bool>(false),
-    },
+  static final Map<String, Map<String, ValueNotifier<bool>>> _questionRanges = {
+    '清音': { for (final key in seion.keys) key: ValueNotifier<bool>(false) },
+    '撥音': { hatsuon.romaji: ValueNotifier<bool>(false) },
+    '濁音': { for (final key in dakuon.keys) key: ValueNotifier<bool>(false) },
+    '半濁音': { for (final key in handakuon.keys) key: ValueNotifier<bool>(false) },
   };
 
-  final Map<String, ValueNotifier<bool>> questionTypes = {
+  static final Map<String, ValueNotifier<bool>> _questionTypes = {
     '仮名 → ローマ字': ValueNotifier<bool>(false),
     'ローマ字 → 仮名': ValueNotifier<bool>(false),
     '音声 → 仮名': ValueNotifier<bool>(false),
   };
 
-  Future<void> _loadPreferences() async {
-    List<bool> prefRanges = (await PreferencesManager.loadJson('question_ranges', defaultValue: []) as List).map((e) => e as bool).toList();
-    List<bool> prefTypes = (await PreferencesManager.loadJson('question_types', defaultValue: []) as List).map((e) => e as bool).toList();
+  static final ValueNotifier<int> _kataType = ValueNotifier<int>(0);
 
-    int totalRanges = questionRanges.values.fold(0, (sum, map) => sum + map.length);
-    if (prefRanges.length != totalRanges) {
-      prefRanges = List.generate(totalRanges, (_) => false);
-    }
-
-    if (prefTypes.length != questionTypes.length) {
-      prefTypes = List.generate(questionTypes.length, (_) => false);
-    }
-
-    int i = 0;
-    for (final group in questionRanges.keys) {
-      for (final key in questionRanges[group]!.keys) {
-        questionRanges[group]![key]!.value = prefRanges[i++];
-      }
-    }
-
-    i = 0;
-    for (final key in questionTypes.keys) {
-      questionTypes[key]!.value = prefTypes[i++];
-    }
-  }
+  static final FuriganaPracticeService _service = FuriganaPracticeService();
 
   @override
   void initState() {
     super.initState();
-    _loadPreferences();
+    _service.loadPreferences(_questionRanges, _questionTypes, _kataType);
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: Text('練習オプション')),
       body: Padding(
@@ -83,34 +55,26 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                   RubyText(
                     Ruby('出題範囲', rubies: ['しゅつ', 'だい', 'はん', 'い']).toRubyList(),
                     textAlign: TextAlign.start,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(width: 20),
                   TextButton(
                     onPressed: () {
-                      for (final group in questionRanges.values) {
-                        for (final kata in group.values) {
-                          kata.value = true;
-                        }
-                      }
+                      _service.setAllRanges(_questionRanges, true);
                     },
                     child: Text('全選択'),
                   ),
                   const SizedBox(width: 20),
                   TextButton(
                     onPressed: () {
-                      for (final group in questionRanges.values) {
-                        for (final kata in group.values) {
-                          kata.value = false;
-                        }
-                      }
+                      _service.setAllRanges(_questionRanges, false);
                     },
                     child: Text('全解除'),
                   ),
                 ],
               ),
               const Divider(),
-              ...questionRanges.entries.expand((entry) {
+              ..._questionRanges.entries.expand((entry) {
                 return [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +82,7 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                       Column(
                         children: [
                           const SizedBox(height: 10),
-                          Text(entry.key, style: Theme.of(context).textTheme.titleMedium),
+                          Text(entry.key, style: theme.textTheme.titleMedium),
                         ],
                       ),
                       const SizedBox(width: 15),
@@ -141,10 +105,11 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
               RubyText(
                 Ruby('問題形式', rubies: ['もん', 'だい', 'けい', 'しき']).toRubyList(),
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.titleMedium,
+                style: theme.textTheme.titleMedium,
               ),
               const Divider(),
-              ...questionTypes.entries.expand((entry) {
+              KataTypeToggleButtons(kataType: _kataType),
+              ..._questionTypes.entries.expand((entry) {
                 return [
                   LabeledCheckbox(
                     label: entry.key,
@@ -152,23 +117,20 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                   ),
                 ];
               }),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      if (questionRanges.entries
-                          .where((entry) => entry.key != '撥音')
-                          .expand((groups) => groups.value.values)
-                          .every((notifier) => notifier.value == false)) {
+                      if (_service.validateQuestionRanges(_questionRanges)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('撥音以外の範囲を選んでください'),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (questionTypes.values.every((notifier) => notifier.value == false)) {
+                      } else if (_service.validateQuestionTypes(_questionTypes)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('問題形式を選んでください'),
@@ -176,23 +138,26 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                           ),
                         );
                       } else {
-                        await PreferencesManager.saveJson(
-                          'question_ranges',
-                          questionRanges.values
-                              .expand((map) => map.values)
-                              .map((notifier) => notifier.value)
-                              .toList(),
-                        );
-                        await PreferencesManager.saveJson(
-                          'question_types',
-                          questionTypes.values
-                              .map((notifier) => notifier.value)
-                              .toList(),
-                        );
+                        await _service.savePreferences(_questionRanges, _questionTypes, _kataType);
                         if (context.mounted) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => FuriganaPracticePage()),
+                            MaterialPageRoute(builder: (context) => FuriganaPracticePage(
+                              questionRanges: [
+                                ..._questionRanges.values.expand((group) => group.entries)
+                                    .where((kata) => kata.value.value)
+                                    .expand((kata) {
+                                      return seion[kata.key] ??
+                                          dakuon[kata.key] ??
+                                          handakuon[kata.key] ??
+                                          (kata.key == hatsuon.romaji ? [hatsuon] : []);
+                                    }),
+                              ],
+                              questionTypes: [
+                                for (final type in _questionTypes.entries.toList().asMap().entries.where((e) => e.value.value.value)) type.key,
+                              ],
+                              kataType: _kataType.value,
+                            )),
                           );
                         }
                       }

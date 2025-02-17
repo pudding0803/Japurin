@@ -16,6 +16,7 @@ class DakuonAndHandakuonTab extends StatelessWidget {
   ];
   
   final FuriganaType furiganaType;
+
   final Function(String) playSound;
 
   const DakuonAndHandakuonTab({
@@ -26,12 +27,13 @@ class DakuonAndHandakuonTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BaseTab(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            RubyText(const Ruby('濁音', rubies: ['だく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+            RubyText(const Ruby('濁音', rubies: ['だく', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
             const SizedBox(height: 10),
             Table(
               border: TableBorder.all(color: Colors.blue),
@@ -49,7 +51,7 @@ class DakuonAndHandakuonTab extends StatelessWidget {
                 ...dakuon.entries.map((entry) { 
                   return TableRow(
                     children: [
-                      TablePadding(ruby: Ruby('${entry.key.getValue(furiganaType)}行'), header: true),
+                      TablePadding(ruby: Ruby('${entry.value.first.getValue(furiganaType)}行'), header: true),
                       ...entry.value.map((kata) => GestureDetector(
                         onTap: () async {
                           await playSound(kata.romaji);
@@ -64,7 +66,7 @@ class DakuonAndHandakuonTab extends StatelessWidget {
             const SizedBox(height: 10),
             const Divider(),
             const SizedBox(height: 10),
-            RubyText(const Ruby('半濁音', rubies: ['はん', 'だく', 'おん']).toRubyList(), style: Theme.of(context).textTheme.titleMedium),
+            RubyText(const Ruby('半濁音', rubies: ['はん', 'だく', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
             const SizedBox(height: 10),
             Table(
               border: TableBorder.all(color: Colors.blue),
@@ -82,7 +84,7 @@ class DakuonAndHandakuonTab extends StatelessWidget {
                 ...handakuon.entries.map((entry) { 
                   return TableRow(
                     children: [
-                      TablePadding(ruby: Ruby('${entry.key.getValue(furiganaType)}行'), header: true),
+                      TablePadding(ruby: Ruby('${entry.value.first.getValue(furiganaType)}行'), header: true),
                       ...entry.value.map((kata) => GestureDetector(
                         onTap: () async {
                           await playSound(kata.romaji);
