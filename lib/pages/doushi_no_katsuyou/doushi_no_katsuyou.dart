@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:japurin/pages/doushi_no_katsuyou/katsuyou_tab.dart';
+import 'package:japurin/pages/doushi_no_katsuyou/shurui_tab.dart';
 
 class DoushiNoKatsuyouPage extends StatelessWidget {
   const DoushiNoKatsuyouPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('動詞の活用')),
-      body: Center(
-        child: Text('ここは動詞の活用のページです'),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('動詞の活用'),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: '種類'),
+              Tab(text: '活用'),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            ShuruiTab(),
+            KatsuyouTab(),
+          ],
+        ),
       ),
     );
   }
