@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/models/ruby.dart';
-import 'package:japurin/pages/furigana/furigana_learn/furigana_learn.dart';
-import 'package:japurin/pages/furigana/practice/furigana_practice_settings.dart';
+import 'package:japurin/pages/furigana/furigana_learn/furigana_learn_page.dart';
+import 'package:japurin/pages/furigana/practice/furigana_practice_settings_page.dart';
 import 'package:japurin/widgets/navigation_button.dart';
 
 class FuriganaPage extends StatelessWidget {

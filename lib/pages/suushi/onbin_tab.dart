@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/constants/suushi.dart';
-import 'package:japurin/models/ruby.dart';
 import 'package:japurin/widgets/base_tab.dart';
-import 'package:japurin/widgets/table_padding.dart';
 
 class OnbinTab extends StatelessWidget {
-  static const header = ['１', '３', '６', '８', '１０', '？'];
+  static const leadings = ['1', '3', '6', '8', '10', '?'];
 
   const OnbinTab({super.key});
 
@@ -13,32 +11,19 @@ class OnbinTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseTab(
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Table(
-              defaultColumnWidth: IntrinsicColumnWidth(),
-              border: TableBorder.all(color: Colors.blue),
-              defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
-              children: [
-                TableRow(
-                  children: [
-                    TablePadding(ruby: const Ruby(''), header: true),
-                    ...header.map((i) => TablePadding(ruby: Ruby(i), header: true)),
-                  ],
-                ),
-                ...onbin.entries.map((entry) { 
-                  return TableRow(
-                    children: [
-                      TablePadding(ruby: entry.key, header: true),
-                      ...entry.value.map((text) => TablePadding(ruby: Ruby(text))),
-                    ],
-                  );
-                }),
-              ],
-            ),
-          ],
+          children: onbin.entries.map((entry) {
+            return ExpansionTile(
+              title: Text('「${entry.key}行」で始まる数詞'),
+              childrenPadding: EdgeInsets.only(bottom: 5),
+              children: entry.value.asMap().entries.map((e) {
+                return ListTile(
+                  leading: CircleAvatar(child: Text(leadings[e.key])),
+                  title: Text(e.value),
+                );
+              }).toList(),
+            );
+          }).toList(),
         ),
       ),
     );

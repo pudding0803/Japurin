@@ -29,4 +29,11 @@ class Ruby {
 
     return [];
   }
+
+  @override
+  String toString() {
+    if (text != null) return text!;
+    if (texts != null) return texts!.join();
+    return '';
+  }
 }

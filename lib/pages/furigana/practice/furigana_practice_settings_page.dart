@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:japurin/constants/furigana.dart';
 import 'package:japurin/enums/furigana_question_type.dart';
 import 'package:japurin/models/ruby.dart';
-import 'package:japurin/pages/furigana/practice/furigana_practice.dart';
+import 'package:japurin/pages/furigana/practice/furigana_practice_page.dart';
 import 'package:japurin/pages/furigana/practice/furigana_practice_service.dart';
 import 'package:japurin/pages/furigana/practice/kana_type_toggle_buttons.dart';
 import 'package:japurin/widgets/labeled_checkbox.dart';

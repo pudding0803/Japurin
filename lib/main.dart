@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:japurin/pages/home/home.dart';
+import 'package:japurin/pages/home/home_page.dart';
 
 void main() {
   runApp(const App());

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:japurin/pages/suushi/josuushi_tab.dart';
-import 'package:japurin/pages/suushi/kisuushi_tab.dart';
+import 'package:japurin/constants/suushi.dart';
+import 'package:japurin/pages/suushi/suushi_tab.dart';
 import 'package:japurin/pages/suushi/onbin_tab.dart';
 
 class SuushiPage extends StatelessWidget {
@@ -23,8 +23,8 @@ class SuushiPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            KisuushiTab(),
-            JosuushiTab(),
+            SuushiTab(title: '基数詞', suushi: kisuushi),
+            SuushiTab(title: '助数詞', suushi: josuushi),
             OnbinTab(),
           ],
         ),

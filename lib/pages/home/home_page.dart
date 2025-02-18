@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/models/ruby.dart';
-import 'package:japurin/pages/doushi_no_katsuyou/doushi_no_katsuyou.dart';
+import 'package:japurin/pages/doushi_no_katsuyou/doushi_no_katsuyou_page.dart';
 import 'package:japurin/pages/furigana/furigana.dart';
-import 'package:japurin/pages/jitadoushi/jitadoushi.dart';
-import 'package:japurin/pages/suushi/suushi.dart';
+import 'package:japurin/pages/jitadoushi/jitadoushi_page.dart';
+import 'package:japurin/pages/suushi/suushi_page.dart';
 import 'package:japurin/widgets/navigation_button.dart';
 
 class HomePage extends StatefulWidget {
