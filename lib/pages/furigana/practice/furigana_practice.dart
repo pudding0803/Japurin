@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:japurin/enums/furigana_question_type.dart';
 import 'package:japurin/models/furigana.dart';
 import 'package:japurin/models/furigana_question.dart';
 import 'package:japurin/pages/furigana/practice/answer_button.dart';
@@ -7,14 +8,14 @@ import 'package:japurin/pages/furigana/practice/furigana_practice_service.dart';
 
 class FuriganaPracticePage extends StatefulWidget {
   final List<Furigana> questionRanges;
-  final List<int> questionTypes;
-  final int kataType;
+  final List<FuriganaQuestionType> questionTypes;
+  final int kanaType;
   
   const FuriganaPracticePage({
     super.key,
     required this.questionRanges,
     required this.questionTypes,
-    required this.kataType,
+    required this.kanaType,
   });
 
   @override
@@ -36,7 +37,7 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
 
   void _generateNewQuestion() {
     setState(() {
-      _furiganaQuestion = _service.getRandomQuestion(widget.questionRanges, widget.questionTypes, widget.kataType);
+      _furiganaQuestion = _service.getRandomQuestion(widget.questionRanges, widget.questionTypes, widget.kanaType);
       _disabled = List.filled(_furiganaQuestion.answers.length, false); 
     });
     if (_furiganaQuestion.isAudio) _playQuestionSound();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/constants/furigana.dart';
+import 'package:japurin/enums/furigana_type.dart';
 import 'package:japurin/models/furigana.dart';
 import 'package:japurin/widgets/base_tab.dart';
 import 'package:japurin/models/ruby.dart';
@@ -45,7 +46,7 @@ class SeionAndHatsuonTab extends StatelessWidget {
                 TableRow(
                   children: [
                     TablePadding(ruby: const Ruby(''), header: true),
-                    ...header.map((kata) => TablePadding(ruby: Ruby('${kata.getValue(furiganaType)}段'), header: true)),
+                    ...header.map((kana) => TablePadding(ruby: Ruby('${kana.getValue(furiganaType)}段'), header: true)),
                   ],
                 ),
                 ...seion.entries.map((entry) { 

@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:japurin/enums/furigana_question_type.dart';
+import 'package:japurin/enums/furigana_type.dart';
 import 'package:japurin/models/furigana.dart';
 import 'package:japurin/models/furigana_question.dart';
 import 'package:japurin/utils/preferences_manager.dart';
@@ -9,8 +11,8 @@ import 'package:japurin/utils/random_sampler.dart';
 class FuriganaPracticeService {
   void setAllRanges(Map<String, Map<String, ValueNotifier<bool>>> ranges, bool value) {
     for (final group in ranges.values) {
-      for (final kata in group.values) {
-        kata.value = value;
+      for (final kana in group.values) {
+        kana.value = value;
       }
     }
   }
@@ -26,10 +28,10 @@ class FuriganaPracticeService {
     return types.values.every((notifier) => notifier.value == false);
   }
 
-  Future<void> loadPreferences(Map<String, Map<String, ValueNotifier<bool>>> ranges, Map<String, ValueNotifier<bool>> types, ValueNotifier<int> kataType) async {
+  Future<void> loadPreferences(Map<String, Map<String, ValueNotifier<bool>>> ranges, Map<String, ValueNotifier<bool>> types, ValueNotifier<int> kanaType) async {
     List<bool> prefRanges = (await PreferencesManager.loadJson('question_ranges', defaultValue: []) as List).map((e) => e as bool).toList();
     List<bool> prefTypes = (await PreferencesManager.loadJson('question_types', defaultValue: []) as List).map((e) => e as bool).toList();
-    final int prefKataType = await PreferencesManager.load('question_kata_type', defaultValue: 1);
+    final int prefKanaType = await PreferencesManager.load('question_kana_type', defaultValue: 1);
 
     final int totalRanges = ranges.values.fold(0, (sum, map) => sum + map.length);
     if (prefRanges.length != totalRanges) {
@@ -52,10 +54,10 @@ class FuriganaPracticeService {
       types[key]!.value = prefTypes[i++];
     }
 
-    kataType.value = prefKataType;
+    kanaType.value = prefKanaType;
   }
 
-  Future<void> savePreferences(Map<String, Map<String, ValueNotifier<bool>>> ranges, Map<String, ValueNotifier<bool>> types, ValueNotifier<int> kataType) async {
+  Future<void> savePreferences(Map<String, Map<String, ValueNotifier<bool>>> ranges, Map<String, ValueNotifier<bool>> types, ValueNotifier<int> kanaType) async {
     await PreferencesManager.saveJson(
       'question_ranges',
       ranges.values
@@ -69,13 +71,13 @@ class FuriganaPracticeService {
           .map((notifier) => notifier.value)
           .toList(),
     );
-    await PreferencesManager.save('question_kata_type', kataType.value);
+    await PreferencesManager.save('question_kana_type', kanaType.value);
   }
 
-  FuriganaQuestion getRandomQuestion(List<Furigana> ranges, List<int> types, int kataType) {
+  FuriganaQuestion getRandomQuestion(List<Furigana> ranges, List<FuriganaQuestionType> types, int kanaType) {
     final Furigana question = RandomSampler.sampleOne<Furigana>(ranges);
 
-    final Map<Furigana, int> weights = {for (final kata in ranges) kata: 1};
+    final Map<Furigana, int> weights = {for (final kana in ranges) kana: 1};
 
     // TODO: Modify the weights for specific kata
 
@@ -90,49 +92,46 @@ class FuriganaPracticeService {
     ];
     answers.shuffle();
 
-    final int type = types.length == 1 ? types[0] : RandomSampler.sampleOne<int>(types);
+    final FuriganaQuestionType type = types.length == 1 ? types[0] : RandomSampler.sampleOne<FuriganaQuestionType>(types);
     String questionText;
     List<String> answerTexts;
-    FuriganaType? furiganaType = _getFuriganaType(kataType);
+    FuriganaType furiganaType = _getFuriganaType(kanaType);
     switch (type) {
-      case 0:
-        questionText = _getFuriganaString(question, furiganaType);
+      case FuriganaQuestionType.kanaToRomaji:
+        questionText = question.getValue(furiganaType);
         answerTexts = answers.map((answer) => answer.romaji).toList();
         break;
-      case 1:
-      case 2:
+      case FuriganaQuestionType.romajiToKana:
+      case FuriganaQuestionType.audioToKana:
         questionText = question.romaji;
-        answerTexts = answers.map((answer) => _getFuriganaString(answer, furiganaType)).toList();
+        answerTexts = answers.map((answer) => answer.getValue(furiganaType)).toList();
         break;
-      default:
-        throw UnimplementedError('Undefined question type: $type');
+      case FuriganaQuestionType.kanaSwap:
+        questionText = question.getValue(furiganaType);
+        FuriganaType oppositeType = (furiganaType == FuriganaType.hiragana) 
+          ? FuriganaType.katakana 
+          : FuriganaType.hiragana;
+        answerTexts = answers.map((answer) => answer.getValue(oppositeType)).toList();
+        break;
     }
     return FuriganaQuestion(
       question: questionText,
       answers: answerTexts,
       answerIndex: answers.indexOf(question),
-      isAudio: type == 2,
+      isAudio: type == FuriganaQuestionType.audioToKana,
     );
   }
 
-  FuriganaType? _getFuriganaType(int kataType) {
-    switch (kataType) {
+  FuriganaType _getFuriganaType(int kanaType) {
+    switch (kanaType) {
       case 0:
         return FuriganaType.hiragana;
       case 1:
         return FuriganaType.katakana;
       case 2:
         return Random().nextBool() ? FuriganaType.hiragana : FuriganaType.katakana;
-      case 3:
-        return null;
       default:
-        throw UnimplementedError('Undefined kata type: $kataType');
+        throw UnimplementedError('Undefined kana type: $kanaType');
     }
-  }
-
-  String _getFuriganaString(Furigana furigana, FuriganaType? furiganaType) {
-    return furiganaType != null
-      ? furigana.getValue(furiganaType)
-      : (Random().nextBool() ? furigana.hiragana : furigana.katakana);
   }
 }

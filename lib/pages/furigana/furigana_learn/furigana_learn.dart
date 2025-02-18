@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:japurin/models/furigana.dart';
+import 'package:japurin/enums/furigana_type.dart';
 import 'package:japurin/pages/furigana/furigana_learn/dakuon_and_handakuon_tab.dart';
 import 'package:japurin/pages/furigana/furigana_learn/seion_and_hatsuon_tab.dart';
 import 'package:japurin/pages/furigana/furigana_learn/sokuon_and_youon_tab.dart';
@@ -17,8 +17,8 @@ class _FuriganaLearnPageState extends State<FuriganaLearnPage> {
 
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  void _playKataSound(String kata) async {
-    await _audioPlayer.play(AssetSource('audio/$kata.mp3'));
+  void _playKanaSound(String kana) async {
+    await _audioPlayer.play(AssetSource('audio/$kana.mp3'));
   }
 
   @override
@@ -38,9 +38,9 @@ class _FuriganaLearnPageState extends State<FuriganaLearnPage> {
         ),
         body: TabBarView(
           children: [
-            SeionAndHatsuonTab(furiganaType: _furiganaType, playSound: _playKataSound),
-            DakuonAndHandakuonTab(furiganaType: _furiganaType, playSound: _playKataSound),
-            SokuonAndYouonTab(furiganaType: _furiganaType, playSound: _playKataSound),
+            SeionAndHatsuonTab(furiganaType: _furiganaType, playSound: _playKanaSound),
+            DakuonAndHandakuonTab(furiganaType: _furiganaType, playSound: _playKanaSound),
+            SokuonAndYouonTab(furiganaType: _furiganaType, playSound: _playKanaSound),
           ],
         ),
         floatingActionButton: FloatingActionButton(

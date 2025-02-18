@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class KataTypeToggleButtons extends StatelessWidget {
-  final ValueNotifier<int> kataType;
+class KanaTypeToggleButtons extends StatelessWidget {
+  final ValueNotifier<int> kanaType;
 
-  const KataTypeToggleButtons({
+  const KanaTypeToggleButtons({
     super.key,
-    required this.kataType,
+    required this.kanaType,
   });
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
-      valueListenable: kataType,
+      valueListenable: kanaType,
       builder: (context, value, child) {
         return ToggleButtons(
-          isSelected: List.generate(4, (i) => value == i),
+          isSelected: List.generate(3, (i) => value == i),
           onPressed: (int index) {
-            kataType.value = index;
+            kanaType.value = index;
           },
           borderRadius: BorderRadius.circular(10),
           constraints: BoxConstraints(minWidth: 70, minHeight: 40),
@@ -24,7 +24,6 @@ class KataTypeToggleButtons extends StatelessWidget {
             Text('平仮名'),
             Text('片仮名'),
             Text('両方'),
-            Text('ミックス'),
           ],
         );
       },

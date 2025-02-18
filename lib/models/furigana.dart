@@ -1,4 +1,4 @@
-enum FuriganaType { hiragana, katakana, romaji }
+import 'package:japurin/enums/furigana_type.dart';
 
 class Furigana {
   final String hiragana;

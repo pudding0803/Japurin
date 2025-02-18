@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:japurin/constants/furigana.dart';
+import 'package:japurin/enums/furigana_question_type.dart';
 import 'package:japurin/models/ruby.dart';
 import 'package:japurin/pages/furigana/practice/furigana_practice.dart';
 import 'package:japurin/pages/furigana/practice/furigana_practice_service.dart';
-import 'package:japurin/pages/furigana/practice/kata_type_toggle_buttons.dart';
+import 'package:japurin/pages/furigana/practice/kana_type_toggle_buttons.dart';
 import 'package:japurin/widgets/labeled_checkbox.dart';
 import 'package:ruby_text/ruby_text.dart';
 
@@ -25,17 +26,18 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
   static final Map<String, ValueNotifier<bool>> _questionTypes = {
     '仮名 → ローマ字': ValueNotifier<bool>(false),
     'ローマ字 → 仮名': ValueNotifier<bool>(false),
-    '音声 → 仮名': ValueNotifier<bool>(false),
+    '発音 → 仮名': ValueNotifier<bool>(false),
+    '平仮名 ⇄ 片仮名': ValueNotifier<bool>(false),
   };
 
-  static final ValueNotifier<int> _kataType = ValueNotifier<int>(0);
+  static final ValueNotifier<int> _kanaType = ValueNotifier<int>(0);
 
   static final FuriganaPracticeService _service = FuriganaPracticeService();
 
   @override
   void initState() {
     super.initState();
-    _service.loadPreferences(_questionRanges, _questionTypes, _kataType);
+    _service.loadPreferences(_questionRanges, _questionTypes, _kanaType);
   }
 
   @override
@@ -108,7 +110,7 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                 style: theme.textTheme.titleMedium,
               ),
               const Divider(),
-              KataTypeToggleButtons(kataType: _kataType),
+              KanaTypeToggleButtons(kanaType: _kanaType),
               ..._questionTypes.entries.expand((entry) {
                 return [
                   LabeledCheckbox(
@@ -138,25 +140,26 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                           ),
                         );
                       } else {
-                        await _service.savePreferences(_questionRanges, _questionTypes, _kataType);
+                        await _service.savePreferences(_questionRanges, _questionTypes, _kanaType);
                         if (context.mounted) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => FuriganaPracticePage(
                               questionRanges: [
                                 ..._questionRanges.values.expand((group) => group.entries)
-                                    .where((kata) => kata.value.value)
-                                    .expand((kata) {
-                                      return seion[kata.key] ??
-                                          dakuon[kata.key] ??
-                                          handakuon[kata.key] ??
-                                          (kata.key == hatsuon.romaji ? [hatsuon] : []);
+                                    .where((kana) => kana.value.value)
+                                    .expand((kana) {
+                                      return seion[kana.key] ??
+                                          dakuon[kana.key] ??
+                                          handakuon[kana.key] ??
+                                          (kana.key == hatsuon.romaji ? [hatsuon] : []);
                                     }),
                               ],
                               questionTypes: [
-                                for (final type in _questionTypes.entries.toList().asMap().entries.where((e) => e.value.value.value)) type.key,
+                                for (final type in _questionTypes.entries.toList().asMap().entries.where((e) => e.value.value.value))
+                                  FuriganaQuestionType.values[type.key],
                               ],
-                              kataType: _kataType.value,
+                              kanaType: _kanaType.value,
                             )),
                           );
                         }
