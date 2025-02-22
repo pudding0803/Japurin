@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:japurin/constants/furigana.dart';
 import 'package:japurin/enums/furigana_type.dart';
 import 'package:japurin/models/furigana.dart';
+import 'package:japurin/pages/furigana/furigana_learn/kana_button.dart';
 import 'package:japurin/widgets/base_tab.dart';
 import 'package:japurin/models/ruby.dart';
-import 'package:japurin/widgets/table_padding.dart';
 import 'package:ruby_text/ruby_text.dart';
 
 class DakuonAndHandakuonTab extends StatelessWidget {
@@ -35,30 +35,36 @@ class DakuonAndHandakuonTab extends StatelessWidget {
         child: Column(
           children: [
             RubyText(const Ruby('濁音', rubies: ['だく', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Table(
-              border: TableBorder.all(color: Colors.blue),
-              defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: {
                 for (int i = 0; i < 6; i++) i: const IntrinsicColumnWidth(),
               },
               children: [
                 TableRow(
                   children: [
-                    TablePadding(ruby: const Ruby(''), header: true),
-                    ...header.map((kana) => TablePadding(ruby: Ruby('${kana.getValue(furiganaType)}段'), header: true)),
+                    const Text(''),
+                    ...header.map((kana) => Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Text('${kana.getValue(furiganaType)}段', textAlign: TextAlign.center)),
+                    ),
                   ],
                 ),
                 ...dakuon.entries.map((entry) { 
                   return TableRow(
                     children: [
-                      TablePadding(ruby: Ruby('${entry.value.first.getValue(furiganaType)}行'), header: true),
-                      ...entry.value.map((kana) => GestureDetector(
-                        onTap: () async {
-                          await playSound(kana.romaji);
-                        },
-                        child: TablePadding(ruby: Ruby(kana.getValue(furiganaType)))),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Text('${entry.value.first.getValue(furiganaType)}行'),
                       ),
+                      ...entry.value.map((kana) => Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: KanaButton(
+                          onPressed: () async { await playSound(kana.romaji); },
+                          text: kana.getValue(furiganaType),
+                        ),
+                      )),
                     ]
                   );
                 }),
@@ -68,30 +74,36 @@ class DakuonAndHandakuonTab extends StatelessWidget {
             const Divider(),
             const SizedBox(height: 10),
             RubyText(const Ruby('半濁音', rubies: ['はん', 'だく', 'おん']).toRubyList(), style: theme.textTheme.titleMedium),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Table(
-              border: TableBorder.all(color: Colors.blue),
-              defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: {
                 for (int i = 0; i < 6; i++) i: const IntrinsicColumnWidth(),
               },
               children: [
                 TableRow(
                   children: [
-                    TablePadding(ruby: const Ruby(''), header: true),
-                    ...header.map((kana) => TablePadding(ruby: Ruby('${kana.getValue(furiganaType)}段'), header: true)),
+                    const Text(''),
+                    ...header.map((kana) => Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Text('${kana.getValue(furiganaType)}段', textAlign: TextAlign.center),
+                    )),
                   ],
                 ),
                 ...handakuon.entries.map((entry) { 
                   return TableRow(
                     children: [
-                      TablePadding(ruby: Ruby('${entry.value.first.getValue(furiganaType)}行'), header: true),
-                      ...entry.value.map((kana) => GestureDetector(
-                        onTap: () async {
-                          await playSound(kana.romaji);
-                        },
-                        child: TablePadding(ruby: Ruby(kana.getValue(furiganaType)))),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Text('${entry.value.first.getValue(furiganaType)}行'),
                       ),
+                      ...entry.value.map((kana) => Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: KanaButton(
+                          onPressed: () async { await playSound(kana.romaji); },
+                          text: kana.getValue(furiganaType),
+                        ),
+                      )),
                     ]
                   );
                 }),

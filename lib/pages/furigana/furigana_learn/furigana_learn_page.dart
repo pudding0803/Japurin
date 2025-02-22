@@ -27,8 +27,8 @@ class _FuriganaLearnPageState extends State<FuriganaLearnPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('振り仮名の学習'),
-          bottom: TabBar(
+          title: const Text('振り仮名の学習'),
+          bottom: const TabBar(
             tabs: [
               Tab(text: '清音・撥音'),
               Tab(text: '濁音・半濁音'),
@@ -46,7 +46,7 @@ class _FuriganaLearnPageState extends State<FuriganaLearnPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-                _furiganaType = FuriganaType.values[(_furiganaType.index + 1) % FuriganaType.values.length];
+              _furiganaType = FuriganaType.values[(_furiganaType.index + 1) % FuriganaType.values.length];
             });
           },
           tooltip: '${switch (_furiganaType) {
@@ -58,19 +58,19 @@ class _FuriganaLearnPageState extends State<FuriganaLearnPage> {
             clipBehavior: Clip.none,
             children: [
               Transform.translate(
-                offset: Offset(-4, -4),
+                offset: const Offset(-4, -4),
                 child: Text(
                   switch (_furiganaType) {
                     FuriganaType.hiragana => 'ア',
                     FuriganaType.katakana => 'ａ',
                     FuriganaType.romaji => 'あ',
                   },
-                  style: TextStyle(fontSize: 28)),
+                  style: const TextStyle(fontSize: 24)),
               ),
-              Positioned(
+              const Positioned(
                 bottom: 0,
                 right: -7,
-                child: Icon(Icons.sync_alt, size: 18),
+                child: Icon(Icons.sync_alt, size: 16),
               ),
             ],
           ),
