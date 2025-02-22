@@ -9,7 +9,7 @@ class KatsuyouTab extends StatelessWidget {
     return BaseTab(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Text('ここは動詞の活用のページです'),
+        child: const Text('ここは動詞の活用のページです'),
       ),
     );
   }

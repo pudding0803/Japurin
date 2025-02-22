@@ -11,15 +11,15 @@ class DoushiNoKatsuyouPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('動詞の活用'),
-          bottom: TabBar(
+          title: const Text('動詞の活用'),
+          bottom: const TabBar(
             tabs: [
               Tab(text: '種類'),
               Tab(text: '活用'),
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ShuruiTab(),
             KatsuyouTab(),

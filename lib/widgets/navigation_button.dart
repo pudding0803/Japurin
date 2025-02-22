@@ -4,12 +4,16 @@ import 'package:ruby_text/ruby_text.dart';
 
 class NavigationButton extends StatelessWidget {
   final Ruby ruby;
-  final Widget page;
+  final Widget Function() pageBuilder;
+  final Size minimumSize;
+  final double? borderRadius;
 
   const NavigationButton({
     super.key,
     required this.ruby,
-    required this.page,
+    required this.pageBuilder,
+    required this.minimumSize,
+    this.borderRadius,
   });
 
   @override
@@ -17,15 +21,19 @@ class NavigationButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => page),
+        MaterialPageRoute(builder: (context) => pageBuilder()),
       ),
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(140, 60),
+        minimumSize: minimumSize,
+        shape: borderRadius != null
+          ? RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(borderRadius!),
+            )
+          : null,
       ),
       child: RubyText(
         ruby.toRubyList(),
-        style: TextStyle(fontSize: 14),
-        rubyStyle: TextStyle(color: Colors.grey),
+        rubyStyle: const TextStyle(color: Colors.grey),
       ),
     );
   }

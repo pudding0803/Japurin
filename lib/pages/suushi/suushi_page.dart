@@ -12,8 +12,8 @@ class SuushiPage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('数詞'),
-          bottom: TabBar(
+          title: const Text('数詞'),
+          bottom: const TabBar(
             tabs: [
               Tab(text: '基数詞'),
               Tab(text: '助数詞'),
@@ -21,7 +21,7 @@ class SuushiPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             SuushiTab(title: '基数詞', suushi: kisuushi),
             SuushiTab(title: '助数詞', suushi: josuushi),

@@ -19,10 +19,10 @@ class NumberListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: ListView.builder(
-        padding: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 20),
+        padding: const EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 20),
         itemCount: items.length,
         itemBuilder: (context, index) {
-          final ruby = items[index];
+          final Ruby ruby = items[index];
           return Column(
             children: [
               ListTile(

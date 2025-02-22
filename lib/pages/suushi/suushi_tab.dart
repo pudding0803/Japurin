@@ -21,7 +21,7 @@ class SuushiTab extends StatelessWidget {
         crossAxisCount: 3,
         children: suushi.entries.map((entry) {
           return Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -31,7 +31,7 @@ class SuushiTab extends StatelessWidget {
                 )),
               ),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

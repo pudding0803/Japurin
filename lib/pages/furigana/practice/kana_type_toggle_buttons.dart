@@ -19,8 +19,8 @@ class KanaTypeToggleButtons extends StatelessWidget {
             kanaType.value = index;
           },
           borderRadius: BorderRadius.circular(10),
-          constraints: BoxConstraints(minWidth: 70, minHeight: 40),
-          children: [
+          constraints: const BoxConstraints(minWidth: 70, minHeight: 40),
+          children: const [
             Text('平仮名'),
             Text('片仮名'),
             Text('両方'),

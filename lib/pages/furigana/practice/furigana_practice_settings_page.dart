@@ -44,7 +44,7 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('練習オプション')),
+      appBar: AppBar(title: const Text('練習オプション')),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: SingleChildScrollView(
@@ -55,7 +55,7 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
               Row(
                 children: [
                   RubyText(
-                    Ruby('出題範囲', rubies: ['しゅつ', 'だい', 'はん', 'い']).toRubyList(),
+                    const Ruby('出題範囲', rubies: ['しゅつ', 'だい', 'はん', 'い']).toRubyList(),
                     textAlign: TextAlign.start,
                     style: theme.textTheme.titleMedium,
                   ),
@@ -64,14 +64,14 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                     onPressed: () {
                       _service.setAllRanges(_questionRanges, true);
                     },
-                    child: Text('全選択'),
+                    child: const Text('全選択'),
                   ),
                   const SizedBox(width: 20),
                   TextButton(
                     onPressed: () {
                       _service.setAllRanges(_questionRanges, false);
                     },
-                    child: Text('全解除'),
+                    child: const Text('全解除'),
                   ),
                 ],
               ),
@@ -128,15 +128,15 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                       if (_service.validateQuestionRanges(_questionRanges)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('撥音以外の範囲を選んでください'),
-                            duration: Duration(seconds: 2),
+                            content: const Text('撥音以外の範囲を選んでください'),
+                            duration: const Duration(seconds: 2),
                           ),
                         );
                       } else if (_service.validateQuestionTypes(_questionTypes)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('問題形式を選んでください'),
-                            duration: Duration(seconds: 2),
+                            content: const Text('問題形式を選んでください'),
+                            duration: const Duration(seconds: 2),
                           ),
                         );
                       } else {
@@ -166,9 +166,9 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(100, 40),
+                      minimumSize: const Size(100, 40),
                     ),
-                    child: Text('開始'),
+                    child: const Text('開始'),
                   ),
                 ],
               ),

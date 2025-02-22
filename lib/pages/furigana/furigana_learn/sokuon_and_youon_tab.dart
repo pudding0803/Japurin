@@ -29,7 +29,7 @@ class SokuonAndYouonTab extends StatelessWidget {
     final theme = Theme.of(context);
     return BaseTab(
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.only(bottom: 20),
         child: Column(
           children: [
             Row(

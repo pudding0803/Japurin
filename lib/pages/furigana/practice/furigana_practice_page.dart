@@ -53,7 +53,7 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('振り仮名の練習')),
+      appBar: AppBar(title: const Text('振り仮名の練習')),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -62,19 +62,19 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
               flex: 2,
               child: Center(
                 child: _furiganaQuestion.isAudio
-                ? ElevatedButton(
-                    onPressed: () {
-                      _playQuestionSound();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(160, 140),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
+                  ? ElevatedButton(
+                      onPressed: () {
+                        _playQuestionSound();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(160, 140),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
                       ),
-                    ),
-                    child: Icon(Icons.volume_up, size: 36),
-                  )
-                : Text(_furiganaQuestion.question, style: TextStyle(color: theme.colorScheme.primary, fontSize: 24))
+                      child: const Icon(Icons.volume_up, size: 36),
+                    )
+                  : Text(_furiganaQuestion.question, style: TextStyle(color: theme.colorScheme.primary, fontSize: 24))
               ),
             ),
             Expanded(
@@ -84,7 +84,7 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
                 children: List.generate((_furiganaQuestion.answers.length / 2).ceil(), (rowIndex) {
                   return Row(
                     children: List.generate(2, (colIndex) {
-                      int index = rowIndex * 2 + colIndex;
+                      final int index = rowIndex * 2 + colIndex;
                       return index < _furiganaQuestion.answers.length
                         ? AnswerButton(
                             onPressed: () {
@@ -102,7 +102,7 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
                             correctAnswer: index == _furiganaQuestion.answerIndex,
                             disabled: _disabled[index],
                           )
-                        : SizedBox();
+                        : const SizedBox();
                     }),
                   );
                 }),

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:japurin/models/ruby.dart';
 import 'package:japurin/pages/doushi_no_katsuyou/doushi_no_katsuyou_page.dart';
 import 'package:japurin/pages/furigana/furigana.dart';
+import 'package:japurin/pages/home/home_navigation_button.dart';
 import 'package:japurin/pages/jitadoushi/jitadoushi_page.dart';
 import 'package:japurin/pages/suushi/suushi_page.dart';
-import 'package:japurin/widgets/navigation_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,29 +20,29 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.colorScheme.inversePrimary,
-        title: Text('ジャプリン Japurin'),
+        title: const Text('ジャプリン Japurin'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              NavigationButton(
-                ruby: Ruby('振り仮名', rubies: ['ふ', null, 'が', 'な']),
-                page: FuriganaPage(),
+              HomeNavigationButton(
+                ruby: const Ruby('振り仮名', rubies: ['ふ', null, 'が', 'な']),
+                pageBuilder: () => FuriganaPage(),
               ),
-              NavigationButton(
-                ruby: Ruby('数詞', rubies: ['すう', 'し']),
-                page: SuushiPage(),
+              HomeNavigationButton(
+                ruby: const Ruby('数詞', rubies: ['すう', 'し']),
+                pageBuilder: () => SuushiPage(),
               ),
-              NavigationButton(
-                ruby: Ruby('動詞の活用', rubies: ['どう', 'し', null, 'かつ', 'よう']),
-                page: DoushiNoKatsuyouPage(),
+              HomeNavigationButton(
+                ruby: const Ruby('動詞の活用', rubies: ['どう', 'し', null, 'かつ', 'よう']),
+                pageBuilder: () => DoushiNoKatsuyouPage(),
               ),
-              NavigationButton(
-                ruby: Ruby('自・他動詞', rubies: ['じ', null, 'た', 'どう', 'し']),
-                page: JitadoushiPage(),
+              HomeNavigationButton(
+                ruby: const Ruby('自・他動詞', rubies: ['じ', null, 'た', 'どう', 'し']),
+                pageBuilder: () => JitadoushiPage(),
               ),
             ],
           ),

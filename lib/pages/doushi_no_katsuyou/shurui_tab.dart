@@ -16,39 +16,39 @@ class ShuruiTab extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RubyText(
-              Ruby('五段動詞', rubies: ['ご', 'だん', 'どう', 'し']).toRubyList(),
+              const Ruby('五段動詞', rubies: ['ご', 'だん', 'どう', 'し']).toRubyList(),
               style: theme.textTheme.titleMedium,
             ),
             const Divider(),
             const SizedBox(height: 5),
             const SizedBox(height: 20),
             RubyText(
-              Ruby('一段動詞', rubies: ['いち', 'だん', 'どう', 'し']).toRubyList(),
+              const Ruby('一段動詞', rubies: ['いち', 'だん', 'どう', 'し']).toRubyList(),
               style: theme.textTheme.titleMedium,
             ),
             const Divider(),
             const SizedBox(height: 5),
             RubyText(
-              Ruby('上一段動詞', rubies: ['かみ', 'いち', 'だん', 'どう', 'し']).toRubyList(),
+              const Ruby('上一段動詞', rubies: ['かみ', 'いち', 'だん', 'どう', 'し']).toRubyList(),
               style: theme.textTheme.titleSmall,
             ),
             RubyText(
-              Ruby('下一段動詞', rubies: ['しも', 'いち', 'だん', 'どう', 'し']).toRubyList(),
+              const Ruby('下一段動詞', rubies: ['しも', 'いち', 'だん', 'どう', 'し']).toRubyList(),
               style: theme.textTheme.titleSmall,
             ),
             const SizedBox(height: 20),
             RubyText(
-              Ruby('変格動詞', rubies: ['へん', 'かく', 'どう', 'し']).toRubyList(),
+              const Ruby('変格動詞', rubies: ['へん', 'かく', 'どう', 'し']).toRubyList(),
               style: theme.textTheme.titleMedium,
             ),
             const Divider(),
             const SizedBox(height: 5),
             RubyText(
-              Ruby('サ行変格動詞', rubies: [null, 'ぎょう', 'へん', 'かく', 'どう', 'し']).toRubyList(),
+              const Ruby('サ行変格動詞', rubies: [null, 'ぎょう', 'へん', 'かく', 'どう', 'し']).toRubyList(),
               style: theme.textTheme.titleSmall,
             ),
             RubyText(
-              Ruby('カ行変格動詞', rubies: [null, 'ぎょう', 'へん', 'かく', 'どう', 'し']).toRubyList(),
+              const Ruby('カ行変格動詞', rubies: [null, 'ぎょう', 'へん', 'かく', 'どう', 'し']).toRubyList(),
               style: theme.textTheme.titleSmall,
             ),
           ],

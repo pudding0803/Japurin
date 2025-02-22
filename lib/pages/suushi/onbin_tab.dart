@@ -15,7 +15,7 @@ class OnbinTab extends StatelessWidget {
           children: onbin.entries.map((entry) {
             return ExpansionTile(
               title: Text('「${entry.key}行」で始まる数詞'),
-              childrenPadding: EdgeInsets.only(bottom: 5),
+              childrenPadding: const EdgeInsets.only(bottom: 5),
               children: entry.value.asMap().entries.map((e) {
                 return ListTile(
                   leading: CircleAvatar(child: Text(leadings[e.key])),

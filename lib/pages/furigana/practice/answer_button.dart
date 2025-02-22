@@ -24,9 +24,9 @@ class AnswerButton extends StatelessWidget {
             backgroundColor: disabled
               ? (correctAnswer ? Colors.greenAccent : Colors.redAccent)
               : null,
-            minimumSize: Size(120, 80),
+            minimumSize: const Size(120, 80),
           ),
-          child: Text(text, style: TextStyle(fontSize: 16)),
+          child: Text(text, style: const TextStyle(fontSize: 16)),
         ),
       ),
     );

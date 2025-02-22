@@ -6,9 +6,9 @@ class JitadoushiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('自・他動詞')),
+      appBar: AppBar(title: const Text('自・他動詞')),
       body: Center(
-        child: Text('ここは自・他動詞のページです'),
+        child: const Text('ここは自・他動詞のページです'),
       ),
     );
   }
