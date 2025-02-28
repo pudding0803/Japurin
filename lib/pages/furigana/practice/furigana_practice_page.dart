@@ -4,18 +4,21 @@ import 'package:japurin/enums/furigana_question_type.dart';
 import 'package:japurin/models/furigana.dart';
 import 'package:japurin/models/furigana_question.dart';
 import 'package:japurin/pages/furigana/practice/answer_button.dart';
+import 'package:japurin/pages/furigana/practice/detailed_settings.dart';
 import 'package:japurin/pages/furigana/practice/furigana_practice_service.dart';
 
 class FuriganaPracticePage extends StatefulWidget {
   final List<Furigana> questionRanges;
   final List<FuriganaQuestionType> questionTypes;
   final int kanaType;
+  final DetailedSettings detailedSettings;
   
   const FuriganaPracticePage({
     super.key,
     required this.questionRanges,
     required this.questionTypes,
     required this.kanaType,
+    required this.detailedSettings,
   });
 
   @override
@@ -28,6 +31,8 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
   static late FuriganaQuestion _furiganaQuestion;
 
   static late List<bool> _disabled;
+  
+  late final int _switchDelayMs;
 
   final _audioPlayer = AudioPlayer();
 
@@ -46,6 +51,7 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
   @override
   void initState() {
     super.initState();
+    _switchDelayMs = (widget.detailedSettings.switchDelay * 1000).toInt();
     _generateNewQuestion();
   }
 
@@ -93,7 +99,7 @@ class _FuriganaPracticePageState extends State<FuriganaPracticePage> {
                                 _disabled[index] = true;
                               });
                               if (index == _furiganaQuestion.answerIndex) {
-                                Future.delayed(const Duration(milliseconds: 300), () {
+                                Future.delayed(Duration(milliseconds: _switchDelayMs), () {
                                   _generateNewQuestion();
                                 });
                               }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:japurin/constants/furigana.dart';
 import 'package:japurin/enums/furigana_question_type.dart';
 import 'package:japurin/models/ruby.dart';
+import 'package:japurin/pages/furigana/practice/detailed_settings.dart';
 import 'package:japurin/pages/furigana/practice/furigana_practice_page.dart';
 import 'package:japurin/pages/furigana/practice/furigana_practice_service.dart';
 import 'package:japurin/pages/furigana/practice/kana_type_toggle_buttons.dart';
@@ -32,12 +33,16 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
 
   static final ValueNotifier<int> _kanaType = ValueNotifier<int>(0);
 
+  static final _detailedSettings = DetailedSettings(
+    switchDelay: 0.3,
+  );
+
   static final FuriganaPracticeService _service = FuriganaPracticeService();
 
   @override
   void initState() {
     super.initState();
-    _service.loadPreferences(_questionRanges, _questionTypes, _kanaType);
+    _service.loadPreferences(_questionRanges, _questionTypes, _kanaType, _detailedSettings);
   }
 
   @override
@@ -120,6 +125,35 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                 ];
               }),
               const SizedBox(height: 15),
+              ExpansionTile(
+                title: RubyText(Ruby('追加設定', rubies: ['つい', 'か', 'せっ', 'てい']).toRubyList()),
+                childrenPadding: EdgeInsets.only(left: 20, top: 20),
+                children: [
+                  // const Divider(),
+                  Padding(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('切換題目延遲時間（${_detailedSettings.switchDelay} 秒）'),
+                        Slider(
+                          value: _detailedSettings.switchDelay,
+                          min: 0.0,
+                          max: 2.0,
+                          divisions: 20,
+                          label: _detailedSettings.switchDelay.toStringAsFixed(1),
+                          onChanged: (double value) {
+                            setState(() {
+                              _detailedSettings.switchDelay = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -140,7 +174,7 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                           ),
                         );
                       } else {
-                        await _service.savePreferences(_questionRanges, _questionTypes, _kanaType);
+                        await _service.savePreferences(_questionRanges, _questionTypes, _kanaType, _detailedSettings);
                         if (context.mounted) {
                           Navigator.push(
                             context,
@@ -160,6 +194,7 @@ class _FuriganaPracticeSettingsPageState extends State<FuriganaPracticeSettingsP
                                   FuriganaQuestionType.values[type.key],
                               ],
                               kanaType: _kanaType.value,
+                              detailedSettings: _detailedSettings,
                             )),
                           );
                         }

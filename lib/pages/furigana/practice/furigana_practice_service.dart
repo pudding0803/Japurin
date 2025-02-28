@@ -5,94 +5,109 @@ import 'package:japurin/enums/furigana_question_type.dart';
 import 'package:japurin/enums/furigana_type.dart';
 import 'package:japurin/models/furigana.dart';
 import 'package:japurin/models/furigana_question.dart';
+import 'package:japurin/pages/furigana/practice/detailed_settings.dart';
 import 'package:japurin/utils/preferences_manager.dart';
 import 'package:japurin/utils/random_sampler.dart';
 
 class FuriganaPracticeService {
-  void setAllRanges(Map<String, Map<String, ValueNotifier<bool>>> ranges, bool value) {
-    for (final group in ranges.values) {
+  void setAllRanges(Map<String, Map<String, ValueNotifier<bool>>> questionRanges, bool value) {
+    for (final group in questionRanges.values) {
       for (final kana in group.values) {
         kana.value = value;
       }
     }
   }
 
-  bool validateQuestionRanges(Map<String, Map<String, ValueNotifier<bool>>> ranges) {
-    return ranges.entries
+  bool validateQuestionRanges(Map<String, Map<String, ValueNotifier<bool>>> questionRanges) {
+    return questionRanges.entries
         .where((entry) => entry.key != '撥音')
         .expand((groups) => groups.value.values)
         .every((notifier) => notifier.value == false);
   }
 
-  bool validateQuestionTypes(Map<String, ValueNotifier<bool>> types) {
-    return types.values.every((notifier) => notifier.value == false);
+  bool validateQuestionTypes(Map<String, ValueNotifier<bool>> questionTypes) {
+    return questionTypes.values.every((notifier) => notifier.value == false);
   }
 
-  Future<void> loadPreferences(Map<String, Map<String, ValueNotifier<bool>>> ranges, Map<String, ValueNotifier<bool>> types, ValueNotifier<int> kanaType) async {
-    List<bool> prefRanges = (await PreferencesManager.loadJson('question_ranges', defaultValue: []) as List).map((e) => e as bool).toList();
-    List<bool> prefTypes = (await PreferencesManager.loadJson('question_types', defaultValue: []) as List).map((e) => e as bool).toList();
-    final int prefKanaType = await PreferencesManager.load('question_kana_type', defaultValue: 1);
+  Future<void> loadPreferences(
+    Map<String, Map<String, ValueNotifier<bool>>> questionRanges,
+    Map<String, ValueNotifier<bool>> questionTypes,
+    ValueNotifier<int> kanaType,
+    DetailedSettings detailedSettings,
+  ) async {
+    List<bool> prefQuestionRanges = (await PreferencesManager.loadJson('question_ranges', defaultValue: []) as List).map((e) => e as bool).toList();
+    List<bool> prefQuestionTypes = (await PreferencesManager.loadJson('question_types', defaultValue: []) as List).map((e) => e as bool).toList();
+    final int prefKanaType = await PreferencesManager.load('question_kana_type', defaultValue: kanaType.value);
+    DetailedSettings prefDetailedSettings = DetailedSettings.fromJson(await PreferencesManager.loadJson('details', defaultValue: {}));
 
-    final int totalRanges = ranges.values.fold(0, (sum, map) => sum + map.length);
-    if (prefRanges.length != totalRanges) {
-      prefRanges = List.generate(totalRanges, (_) => false);
+    final int totalRanges = questionRanges.values.fold(0, (sum, map) => sum + map.length);
+    if (prefQuestionRanges.length != totalRanges) {
+      prefQuestionRanges = List.generate(totalRanges, (_) => false);
     }
 
-    if (prefTypes.length != types.length) {
-      prefTypes = List.generate(types.length, (_) => false);
+    if (prefQuestionTypes.length != questionTypes.length) {
+      prefQuestionTypes = List.generate(questionTypes.length, (_) => false);
     }
 
     int i = 0;
-    for (final group in ranges.keys) {
-      for (final key in ranges[group]!.keys) {
-        ranges[group]![key]!.value = prefRanges[i++];
+    for (final group in questionRanges.keys) {
+      for (final key in questionRanges[group]!.keys) {
+        questionRanges[group]![key]!.value = prefQuestionRanges[i++];
       }
     }
 
     i = 0;
-    for (final key in types.keys) {
-      types[key]!.value = prefTypes[i++];
+    for (final key in questionTypes.keys) {
+      questionTypes[key]!.value = prefQuestionTypes[i++];
     }
 
     kanaType.value = prefKanaType;
+
+    detailedSettings = prefDetailedSettings;
   }
 
-  Future<void> savePreferences(Map<String, Map<String, ValueNotifier<bool>>> ranges, Map<String, ValueNotifier<bool>> types, ValueNotifier<int> kanaType) async {
+  Future<void> savePreferences(
+    Map<String, Map<String, ValueNotifier<bool>>> questionRanges,
+    Map<String, ValueNotifier<bool>> questionTypes,
+    ValueNotifier<int> kanaType,
+    DetailedSettings detailedSettings,
+  ) async {
     await PreferencesManager.saveJson(
       'question_ranges',
-      ranges.values
+      questionRanges.values
           .expand((map) => map.values)
           .map((notifier) => notifier.value)
           .toList(),
     );
     await PreferencesManager.saveJson(
       'question_types',
-      types.values
+      questionTypes.values
           .map((notifier) => notifier.value)
           .toList(),
     );
     await PreferencesManager.save('question_kana_type', kanaType.value);
+    await PreferencesManager.saveJson('detailedSettings', detailedSettings.toJson());
   }
 
-  FuriganaQuestion getRandomQuestion(List<Furigana> ranges, List<FuriganaQuestionType> types, int kanaType) {
-    final Furigana question = RandomSampler.sampleOne<Furigana>(ranges);
+  FuriganaQuestion getRandomQuestion(List<Furigana> questionRanges, List<FuriganaQuestionType> questionTypes, int kanaType) {
+    final Furigana question = RandomSampler.sampleOne<Furigana>(questionRanges);
 
-    final Map<Furigana, int> weights = {for (final kana in ranges) kana: 1};
+    final Map<Furigana, int> weights = {for (final kana in questionRanges) kana: 1};
 
     // TODO: Modify the weights for specific kata
 
-    final int answerNumber = ranges.length <= 6 ? 3 : 5;
+    final int answerNumber = questionRanges.length <= 6 ? 3 : 5;
     final List<Furigana> answers = [
       question,
       ...RandomSampler.sampleMultiple<Furigana>(
-        ranges.where((e) => e != question).toList(),
+        questionRanges.where((e) => e != question).toList(),
         answerNumber,
         weights: weights,
       ),
     ];
     answers.shuffle();
 
-    final FuriganaQuestionType type = types.length == 1 ? types[0] : RandomSampler.sampleOne<FuriganaQuestionType>(types);
+    final FuriganaQuestionType type = questionTypes.length == 1 ? questionTypes[0] : RandomSampler.sampleOne<FuriganaQuestionType>(questionTypes);
     String questionText;
     List<String> answerTexts;
     FuriganaType furiganaType = _getFuriganaType(kanaType);
